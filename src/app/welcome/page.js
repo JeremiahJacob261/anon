@@ -3,6 +3,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useState,useEffect } from "react";
 import {app} from '../../api/firebase'
 import { getAuth } from "firebase/auth";
+import { Typography } from "@mui/material";
 export default function Welcome() {
     const auth = getAuth(app);
     const [useri,setUser] = useState('')
@@ -24,7 +25,7 @@ export default function Welcome() {
       },[]);
     return(
         <div>
-<p>{useri.email}</p>
+<Typography variant="h2">{useri.email}</Typography>
         </div>
     )
 }

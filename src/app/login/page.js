@@ -1,12 +1,13 @@
 "use client"
 import Image from 'next/image'
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import styles from '../page.module.css'
 import Stack from '@mui/material/Stack'
 import { Button, TextField, Typography } from '@mui/material'
 import {app} from '../../api/firebase'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {  onAuthStateChanged } from "firebase/auth";
+import Link from 'next/link'
 export default function Login() {
     const [email,setEmail] = useState("");
     const [pass,setPass] = useState("");
@@ -60,7 +61,7 @@ signInWithEmailAndPassword(auth, email, pass)
     setPass(c.target.value)}}/>
 <Button style={{background:"white"}} onClick={login}>login</Button>
 <Link href='/register' >
-<Typography variant="subtitle" style={{color:"white"}}>Don't have an account ?Sign Up</Typography></Link>
+<Typography variant="subtitle" style={{color:"white"}}>Dont have an account ?Sign Up</Typography></Link>
       </Stack>
     </main>
   )
