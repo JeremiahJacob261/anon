@@ -4,8 +4,8 @@ import styles from './page.module.css'
 export default function Home() {
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        
+      <div style={{display:'flex',justifyContent:'center'}}>
+      <h3>ANON</h3>
       </div>
     </main>
   )
