@@ -2,10 +2,13 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { useState,useEffect } from "react";
 import {app} from '../../api/firebase'
-import { getAuth } from "firebase/auth";
-import { Typography } from "@mui/material";
+import { getAuth,signOut } from "firebase/auth";
+import { Divider, Stack, Typography, Button,Box } from "@mui/material";
+import { supabase } from "../../api/supabase";
+import { useRouter } from "next/navigation";
 export default function Welcome() {
     const auth = getAuth(app);
+    const router = useRouter();
     const [useri,setUser] = useState('')
     useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
@@ -19,13 +22,26 @@ export default function Welcome() {
             // User is signed out
             // ...
             console.log('sign out');
-            route.push('/');
+            router.push('/');
           }
         });
       },[]);
+      const signOuts =()=>{
+        signOut(auth).then(()=>{
+          
+          router.push('/');
+        })
+      }
     return(
-        <div>
-<Typography variant="h2">{useri.email}</Typography>
-        </div>
+        <Box style={{padding:'8px',height:'100vh'}}>
+<Typography variant="subtitle1">Welcome, {useri.displayName}</Typography>
+<Stack direction="column">
+  <Button variant="contained">Create a Topic</Button>
+      <Typography variant="button">Recent</Typography>
+      <Divider/>
+<Button onClick={signOuts}>Log out</Button>
+</Stack>
+
+        </Box>
     )
 }
