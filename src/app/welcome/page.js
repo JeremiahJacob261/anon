@@ -103,7 +103,16 @@ function Lister(){
     height:'200px'
   }
 }>
-  <Lister/>
+ {
+    lists.map((l)=>{
+      console.log(l.title)
+      return(
+        <div>
+         hello, {l.title}
+        </div>
+      )
+    })
+ }
 </Stack>
 <Button onClick={signOuts}>Log out</Button>
 </Stack>

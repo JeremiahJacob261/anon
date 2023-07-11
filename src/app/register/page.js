@@ -40,7 +40,7 @@ export default function Register() {
         // Signed in 
         const user = userCredential.user;
         // ...
-        console.log(user);
+        console.log(user.uid);
         setUser(user.uid);
         updateProfile(auth.currentUser, {
             displayName: name,
@@ -69,10 +69,10 @@ export default function Register() {
     <main style={{background:'#171A21',height:'100vh',display:'flex',justifyContent:'center',padding:'9px'}}>
       <Stack direction='column' 
       style={{minWidth:'300px'}}
-      spacing={4} alignItems="center" justifyContent="stretch">
+      spacing={4} alignItems="center" justifyContent="center">
 
       <h1 style={{color:'whitesmoke',fontFamily:pops.style.fontFamily}}>Register</h1>
-      <Typography style={{color:'whitesmoke',fontFamily:pops.style.fontFamily}}>Login to enjoy our services </Typography>
+      <Typography style={{color:'whitesmoke',fontFamily:pops.style.fontFamily}}>Sign up to test our message app to enjoy our services </Typography>
 <TextField placeholder='Name' type='text' style={{background:'white',width:'100%',fontFamily:pops.style.fontFamily}} value={name}  onChange={(c)=>{
     setName(c.target.value)}}/>
     <TextField placeholder='Email' type='email' style={{background:'white',width:'100%'}} value={email}  onChange={(c)=>{

@@ -11,7 +11,7 @@ export default function Home() {
     <main className={pops.className} style={{background:'#171A21',display:'flex',justifyContent:'center',padding:'9px',height:'100vh'}}>
       <Stack direction='column' 
       style={{width:'300px'}}
-      spacing={4} alignItems="center" >
+      spacing={4} alignItems="center" justifyContent="center" >
       <h1 style={{color:'whitesmoke',fontFamily:pops.style.fontFamily}}>ANON</h1>
       <Typography style={{color:'whitesmoke',fontFamily:pops.style.fontFamily}}>Welcome to ANON, the most trusted Anonymous Messaging App</Typography>
       <Link href='/login'
