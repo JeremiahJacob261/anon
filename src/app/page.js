@@ -16,7 +16,7 @@ export default function Home() {
       <Link href='/login'
       style={{width:'100%'}}>
       <Button variant='contained' style={{width:'100%',background:'black'}}>LOGIN</Button></Link>
-      <Button variant='standard' style={{width:'100%',background:'white'}}>REGISTER</Button>
+      <Button variant='standard' style={{width:'100%',background:'white',color:'black'}}>REGISTER</Button>
       </Stack>
     </main>
   )

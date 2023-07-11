@@ -5,7 +5,7 @@ import styles from '../page.module.css'
 import Stack from '@mui/material/Stack'
 import { Button, TextField, Typography } from '@mui/material'
 import {app} from '../../api/firebase'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 

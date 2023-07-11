@@ -8,10 +8,11 @@ import {app} from '../../api/firebase'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {  onAuthStateChanged } from "firebase/auth";
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 export default function Login() {
     const [email,setEmail] = useState("");
     const [pass,setPass] = useState("");
-    
+    const route = useRouter();
     const [useri,setUser] = useState('')
     const auth = getAuth(app);
   const login=async()=>{
@@ -23,7 +24,7 @@ signInWithEmailAndPassword(auth, email, pass)
     // ...
     setUser(userCredential.uid);
 
-    alert('your account has been created');
+    alert('you are logged in');
     route.push('/welcome');
   })
   .catch((error) => {
@@ -60,7 +61,7 @@ signInWithEmailAndPassword(auth, email, pass)
     setEmail(c.target.value)}}/>
 <TextField placeholder='Password' type='password' style={{background:'white',width:'100%'}} value={pass}  onChange={(c)=>{
     setPass(c.target.value)}}/>
-<Button style={{background:"white"}} onClick={login}>login</Button>
+<Button style={{width:'100%',background:'white',color:'black'}} onClick={login}>login</Button>
 <Link href='/register' >
 <Typography variant="subtitle" style={{color:"white"}}>Dont have an account ?Sign Up</Typography></Link>
       </Stack>
