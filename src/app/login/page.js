@@ -31,6 +31,8 @@ signInWithEmailAndPassword(auth, email, pass)
     const errorMessage = error.message;
     console.log(error.message)
   });
+  }
+
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -46,7 +48,6 @@ signInWithEmailAndPassword(auth, email, pass)
       }
     });
   },[])
-  }
   return (
     <main style={{background:'#171A21',display:'flex',justifyContent:'center',padding:'9px'}}>
       <Stack direction='column' 
