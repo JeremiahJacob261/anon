@@ -11,7 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 export default function Welcome() {
     const auth = getAuth(app);
     const router = useRouter();
-    const [useri,setUser] = useState('');
+    const [useri,setUseri] = useState('');
     const [title,setTitle] = useState('');
     const [lists,setLists] = useState([]);
       const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -22,7 +22,7 @@ export default function Welcome() {
             // https://firebase.google.com/docs/reference/js/auth.user
             const uid = user.uid;
             // ...
-            setUser(user)
+            setUseri(user)
           } else {
             // User is signed out
             // ...
@@ -31,13 +31,18 @@ export default function Welcome() {
           }
         });
         const getL = async()=>{
+          try {
+            
           const {data,error} = await supabase
           .from('topics')
           .select()
-          .eq('email',useri.email)
+          .eq('email','jeremiahjacob261@gmail.com')
           setLists(data);
           console.log(data)
           console.log(useri.email)
+          } catch (error) {
+            console.log(error)
+          }
         }
         getL();
       },[setLists]);
@@ -60,7 +65,10 @@ const generateString = (length)=> {
 //end of random string
 //create random de topic
 const topic = async()=>{
-  const {data,error} = await supabase
+  if(title.length < 1){
+    alert('Please Input a topic')
+  }else{
+    const {data,error} = await supabase
   .from('topics')
   .insert({
     'title':title,
@@ -68,32 +76,22 @@ const topic = async()=>{
     'code':generateString(5),
   })
   console.log(error)
-
+alert('topic uploaded')
   setTitle('');
+  }
 }
 //end topic creation
 
-function Lister(){
-  try{
-    lists.map((l)=>{
-      console.log(l.title)
-      return(
-        <div>
-         hello, {l.title}
-        </div>
-      )
-    })
-  }catch(e){
-    console.log(e);
-  }
-}
+
     return(
         <Box style={{padding:'8px',height:'100vh'}}>
           
 <Typography variant="subtitle1">Welcome, {useri.displayName}</Typography>
-<Stack direction="column">
+<Stack direction="column" spacing={4} alignItems="center">
     <TextField variant='filled' 
-    style={{height:'40px',width:'200px'}}
+    type='text'
+    placeholder="Write a Topic"
+    style={{height:'40px',width:'300px'}}
     value={title} onChange={(e)=>setTitle(e.target.value)}/>
   <Button variant="contained" onClick={topic}>Create a Topic</Button>
       <Typography variant="button">Recent</Typography>
@@ -107,14 +105,14 @@ function Lister(){
     lists.map((l)=>{
       console.log(l.title)
       return(
-        <div>
+        <div key={l.code}>
          hello, {l.title}
         </div>
       )
     })
  }
 </Stack>
-<Button onClick={signOuts}>Log out</Button>
+<Button variant="dark" sx={{background:'red',color:'yellow',width:'100%'}} onClick={signOuts}>Log out</Button>
 </Stack>
         </Box>
     )
