@@ -28,7 +28,7 @@ const getPost=async(para)=> {
               {
                   post.map((p)=>{
                       return(
-                          <div>
+                          <div key={p.id}>
                             {p.comment}
                           </div>
                       )
