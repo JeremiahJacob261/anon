@@ -8,6 +8,7 @@ import { supabase } from "../../api/supabase";
 import { useRouter } from "next/navigation";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 export default function Welcome() {
     const auth = getAuth(app);
     const router = useRouter();
@@ -23,6 +24,8 @@ export default function Welcome() {
             const uid = user.uid;
             // ...
             setUseri(user)
+
+        getL(user.email);
           } else {
             // User is signed out
             // ...
@@ -30,22 +33,21 @@ export default function Welcome() {
             router.push('/');
           }
         });
-        const getL = async()=>{
+        const getL = async(emails)=>{
           try {
             
           const {data,error} = await supabase
           .from('topics')
           .select()
-          .eq('email','jeremiahjacob261@gmail.com')
+          .eq('email',emails)
           setLists(data);
           console.log(data)
-          console.log(useri.email)
+          console.log(emails)
           } catch (error) {
             console.log(error)
           }
         }
-        getL();
-      },[setLists]);
+      },[]);
       const signOuts =()=>{
         signOut(auth).then(()=>{
           
@@ -54,7 +56,7 @@ export default function Welcome() {
       }
 //generate random string
 const generateString = (length)=> {
-    let result = ' ';
+    let result = '';
     const charactersLength = characters.length;
     for ( let i = 0; i < length; i++ ) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -87,6 +89,9 @@ alert('topic uploaded')
         <Box style={{padding:'8px',height:'100vh'}}>
           
 <Typography variant="subtitle1">Welcome, {useri.displayName}</Typography>
+
+<Button variant="dark" sx={{background:'red',color:'yellow'}} onClick={signOuts}>Log out</Button>
+
 <Stack direction="column" spacing={4} alignItems="center">
     <TextField variant='filled' 
     type='text'
@@ -105,15 +110,20 @@ alert('topic uploaded')
     lists.map((l)=>{
       console.log(l.title)
       return(
-        <div key={l.code}>
-         hello, {l.title}
+        <Stack direction="row" key={l.code}>
+        <div 
+        style={{padding:'8px',margin:'4px',border:"1px solid #50514F",background:'#E6E6E6'}}
+        >
+         {l.title}
         </div>
+          <ContentPasteIcon sx={{color:'black'}}  onClick={()=>{
+          navigator.clipboard.writeText(`http://localhost:3000/messages/${l.code}`)
+        }}/>
+        </Stack>
       )
     })
  }
-</Stack>
-<Button variant="dark" sx={{background:'red',color:'yellow',width:'100%'}} onClick={signOuts}>Log out</Button>
-</Stack>
+</Stack></Stack>
         </Box>
     )
 }
