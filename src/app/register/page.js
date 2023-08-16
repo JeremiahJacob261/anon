@@ -70,8 +70,7 @@ export default function Register() {
       <Stack direction='column' 
       style={{minWidth:'300px'}}
       spacing={4} alignItems="center" justifyContent="center">
-
-      <h1 style={{color:'whitesmoke',fontFamily:pops.style.fontFamily}}>Register</h1>
+  <h1 style={{color:'whitesmoke',fontFamily:pops.style.fontFamily}}>Register</h1>
       <Typography style={{color:'whitesmoke',fontFamily:pops.style.fontFamily}}>Sign up to test our message app to enjoy our services </Typography>
 <TextField placeholder='Name' type='text' style={{background:'white',width:'100%',fontFamily:pops.style.fontFamily}} value={name}  onChange={(c)=>{
     setName(c.target.value)}}/>
