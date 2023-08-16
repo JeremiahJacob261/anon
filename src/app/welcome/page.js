@@ -117,7 +117,7 @@ alert('topic uploaded')
          {l.title}
         </div>
           <ContentPasteIcon sx={{color:'black'}}  onClick={()=>{
-          navigator.clipboard.writeText(`http://localhost:3000/messages/${l.code}`)
+          navigator.clipboard.writeText(`http://anon-dev.vercel.app/messages/${l.code}`)
         }}/>
         </Stack>
       )
