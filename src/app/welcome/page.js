@@ -145,7 +145,7 @@ const generateString = (length)=> {
        </Stack>
         
           <ContentPasteIcon sx={{color:'#D0D0D0'}}  onClick={()=>{
-          navigator.clipboard.writeText(`h/messages/${l.code}`)
+          navigator.clipboard.writeText(`https://anon-ebon.vercel.app/messages/${l.code}`)
         }}/>
         </Stack>
       )
