@@ -13,6 +13,7 @@ import {Poppins} from 'next/font/google'
     const pops = Poppins({ subsets: ['latin'],weight:'300' })
 export default function Register() {
     const [email,setEmail] = useState("");
+    const [cpass,setCPass] = useState("");
     const [pass,setPass] = useState("");
     const [useri,setUser] = useState('')
     const [name,setName] = useState('')
@@ -34,7 +35,10 @@ export default function Register() {
         });
       },[])
   const login=async()=>{
-
+  if (pass != cpass) {
+    alert('ensure both passwords are the same')
+  } else {
+    
     createUserWithEmailAndPassword(auth, email, pass)
       .then((userCredential) => {
         // Signed in 
@@ -63,7 +67,18 @@ export default function Register() {
         const errorMessage = error.message;
         // ..
         console.log(errorMessage);
+        if(errorCode === 'auth/wrong-password'){
+          alert('Wrong Password, Please check your password and try again')
+        }
+        if(errorCode === 'auth/network-request-failed'){
+          alert('Please ceck your internet connection and try again')
+        }
+        if(errorCode === 'auth/user-not-found'){
+          alert('Email does not exist, please sign up or register')
+        }
       });
+      
+  }
   }
   return (
     <main style={{background:'#171A21',height:'100vh',display:'flex',justifyContent:'center',padding:'9px'}}>
@@ -79,7 +94,9 @@ export default function Register() {
     setEmail(c.target.value)}}/>
 <TextField placeholder='Password' type='password' style={{background:'white',width:'100%'}} value={pass}  onChange={(c)=>{
     setPass(c.target.value)}}/>
-<Button style={{background:"#FCCA46",color:'#EDF2EF',width:'100%',padding:'8px'}} onClick={login}>Sign up</Button>
+    <TextField placeholder='Confirm Password' type='password' style={{background:'white',width:'100%'}} value={cpass}  onChange={(c)=>{
+    setCPass(c.target.value)}}/>
+<Button style={{background:"#FCCA46",color:'#EDF2EF',width:'100%',padding:'8px',height:'50px'}} onClick={login}>Sign up</Button>
 <Link href='/login' >
 <Typography variant="subtitle" style={{color:"white",fontFamily:pops.style.fontFamily}}>Already have an account ?Login</Typography></Link>
       </Stack>

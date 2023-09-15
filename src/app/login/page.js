@@ -33,6 +33,15 @@ signInWithEmailAndPassword(auth, email, pass)
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(error.message)
+    if(errorCode === 'auth/wrong-password'){
+      alert('Wrong Password, Please check your password and try again')
+    }
+    if(errorCode === 'auth/network-request-failed'){
+      alert('Please ceck your internet connection and try again')
+    }
+    if(errorCode === 'auth/user-not-found'){
+      alert('Email does not exist, please sign up or register')
+    }
   });
   }
 
@@ -63,7 +72,16 @@ signInWithEmailAndPassword(auth, email, pass)
     setEmail(c.target.value)}}/>
 <TextField placeholder='Password' type='password' style={{background:'white',width:'100%'}} value={pass}  onChange={(c)=>{
     setPass(c.target.value)}}/>
-<Button style={{width:'100%',background:"#FCCA46",color:'#EDF2EF',padding:'12px'}} onClick={login}>login</Button>
+<Button style={{width:'100%',background:"#FCCA46",color:'#EDF2EF',padding:'12px'}}
+   onKeyDown={(event)=>{
+    if(
+      event.key === "Enter" ||
+      event.key === "Space"
+      ){
+        login()
+      }
+  }}
+onClick={login}>login</Button>
 <Link href='/register' >
 <Typography variant="subtitle" style={{color:"white",fontFamily:pops.style.fontFamily}}>Dont have an account ?Sign Up</Typography></Link>
       </Stack>
