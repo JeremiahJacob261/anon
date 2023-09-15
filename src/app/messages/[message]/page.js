@@ -12,7 +12,7 @@ export default function Messages({params}) {
     //modal
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => router.push('/welcome');
+    const handleClose = () => router.push('/');
     //endmodal 
   const [post,setPost] = useState({})
   const [comment,setComment] = useState('');
