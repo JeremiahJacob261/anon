@@ -9,6 +9,6 @@ async function Reply(code,response,quest) {
     'quest':quest
 })
 console.log(error)
-alert('uploaded successsfully')
+console.log('uploaded successsfully')
 }
 export default Reply;

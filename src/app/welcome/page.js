@@ -9,9 +9,9 @@ import { useRouter } from "next/navigation";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import {Poppins} from 'next/font/google'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Link from 'next/link'
+import {Poppins} from 'next/font/google'
     const pops = Poppins({ subsets: ['latin'],weight:'300' });
 
 const style = {
@@ -47,7 +47,6 @@ const topic = async(title)=>{
     'code':generateString(5),
   })
   console.log(error)
-alert('topic uploaded')
   setTitle('');
   handleClose();
   }
@@ -90,6 +89,7 @@ alert('topic uploaded')
             console.log(error)
           }
         }
+        
       },[]);
       const signOuts =()=>{
         signOut(auth).then(()=>{
@@ -115,8 +115,8 @@ const generateString = (length)=> {
     return(
         <Box style={{padding:'8px',height:'100vh',background:'#171A21'}} >
           <Alert/>
-<Stack direction='row' sx={{background:'#232730',width:'100%',height:'65px',padding:'12px' }} justifyContent='space-between' alignItems='center'>
-<Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white'}}>Hello {useri.displayName}</Typography>
+<Stack direction='row' sx={{background:'#232730',width:'100%',height:'65px',padding:'12px',borderRadius:'10px' }} justifyContent='space-between' alignItems='center'>
+<Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {useri.displayName}</Typography>
 <ExitToAppIcon onClick={signOuts}  sx={{width:'21px',height:'21px',color:'white'}}/>
 </Stack>
 
@@ -132,7 +132,7 @@ const generateString = (length)=> {
       console.log(date)
       let linkers = `/comment/${l.code}`
       return(
-        <Link href={linkers} key={l.code}>
+        <Link href={'/comment/'+l.code} key={l.code}>
         <Stack direction="row"  justifyContent='space-between' alignItems='center' sx={{width:'100%',height:'60px',background:'#232730',padding:'8px',fontFamily:pops.style.fontFamily}}>
        <Stack>
         <Typography 
@@ -156,7 +156,7 @@ const generateString = (length)=> {
     })
  }
 </Stack>
-<Fab color="primary" aria-label="add" sx={{position:'fixed',bottom:'20px',left:'50%',background:'#363636'}} onClick={handleOpen}>
+<Fab color="primary" aria-label="add" sx={{position:'fixed',bottom:'20px',left:'46%',background:'#363636'}} onClick={handleOpen}>
         <AddIcon />
       </Fab>
         </Box>
