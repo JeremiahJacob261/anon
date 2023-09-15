@@ -19,7 +19,6 @@ try{
         .eq('code',para)
         .order('id', { ascending: false });
   setPost(data);
-  setTopic(data[0].quest);
   console.log(data);
 }catch(e){
 
@@ -44,36 +43,53 @@ try{
       getTost(params.comments);
   },[])
  
+   if (post.length != 0) {
     return(
-        <Stack style={{padding:'8px',background:'#171A21',height:'100vh'}} direction='column'>
-          <Link href='/welcome'>
-          <ArrowBackIosNewIcon sx={{color:'white',width:'30px',height:'30px'}}/>
-          </Link>
-          <Stack alignItems='center' justifyContent="center" >
-            <Typography sx={{fontSize:'20px',color:'white',fontWeight:'700',fontFamily:pops.style.fontFamily}}>{topic}</Typography>
-          </Stack>
-          <Stack direction='column' spacing={2}>
-              {
-                  post.map((l)=>{
-                    let cdate = new Date(l.created_at).getFullYear() + '-' + parseInt(new Date(l.created_at).getMonth() + 1) +'-'+new Date(l.created_at).getDay()+' '+new Date(l.created_at).getHours()+':'+new Date(l.created_at).getMinutes()
-      
-                      return(
-                          <Stack key={l.id} sx={{background:'#232730',padding:'15px',minHeight:'100px'}} direction='column' alignItems='center' justifyContent='space-between'>
-                            <Typography sx={{fontSize:'16px',color:'white',fontWeight:'300',fontFamily:pops.style.fontFamily}}>
-                            {l.comment}
-                            </Typography>
-                            <Typography 
-        style={{color:'#D0D0D0',fontWeight:'200',fontSize:'14px',fontFamily:pops.style.fontFamily}}
-        >
-         {cdate}
-        </Typography>
-                          </Stack>
-                      )
-                  })
-              }</Stack>
-         
+      <Stack style={{padding:'8px',background:'#171A21',minHeight:'100vh'}} direction='column'>
+        <Link href='/welcome'>
+        <ArrowBackIosNewIcon sx={{color:'white',width:'30px',height:'30px'}}/>
+        </Link>
+        <Stack alignItems='center' justifyContent="center" >
+          <Typography sx={{fontSize:'20px',color:'white',fontWeight:'700',fontFamily:pops.style.fontFamily}}>{topic}</Typography>
         </Stack>
-    )
+        <Stack direction='column' spacing={2}>
+            {
+                post.map((l)=>{
+                  let cdate = new Date(l.created_at).getFullYear() + '-' + parseInt(new Date(l.created_at).getMonth() + 1) +'-'+new Date(l.created_at).getDay()+' '+new Date(l.created_at).getHours()+':'+new Date(l.created_at).getMinutes()
+    
+                    return(
+                        <Stack key={l.id} sx={{background:'#232730',padding:'15px',minHeight:'100px'}} direction='column' alignItems='center' justifyContent='space-between'>
+                          <Typography sx={{fontSize:'16px',color:'white',fontWeight:'300',fontFamily:pops.style.fontFamily}}>
+                          {l.comment}
+                          </Typography>
+                          <Typography 
+      style={{color:'#D0D0D0',fontWeight:'200',fontSize:'14px',fontFamily:pops.style.fontFamily}}
+      >
+       {cdate}
+      </Typography>
+                        </Stack>
+                    )
+                })
+            }</Stack>
+       
+      </Stack>
+  )
+   } else {
+    return(
+      <Stack style={{padding:'8px',background:'#171A21',height:'100vh'}} direction='column'>
+        <Link href='/welcome'>
+        <ArrowBackIosNewIcon sx={{color:'white',width:'30px',height:'30px'}}/>
+        </Link>
+        <Stack alignItems='center' justifyContent="center" >
+          <Typography sx={{fontSize:'20px',color:'white',fontWeight:'700',fontFamily:pops.style.fontFamily}}>{topic}</Typography>
+        </Stack>
+        <Stack direction='column' spacing={2}>
+        <Typography sx={{fontSize:'20px',color:'red',fontWeight:'400',fontFamily:pops.style.fontFamily}}>No COMMENT HAS BEEN MADE</Typography>
+          </Stack>
+       
+      </Stack>
+  )
+   }
 }
   
   // This also gets called at build time

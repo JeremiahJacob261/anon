@@ -113,7 +113,7 @@ const generateString = (length)=> {
 
 
     return(
-        <Box style={{padding:'8px',height:'100vh',background:'#171A21'}} >
+        <Box style={{padding:'8px',minHeight:'100vh',background:'#171A21'}} >
           <Alert/>
 <Stack direction='row' sx={{background:'#232730',width:'100%',height:'65px',padding:'12px',borderRadius:'10px' }} justifyContent='space-between' alignItems='center'>
 <Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {useri.displayName}</Typography>
