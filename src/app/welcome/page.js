@@ -11,6 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import {Poppins} from 'next/font/google'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import Link from 'next/link'
     const pops = Poppins({ subsets: ['latin'],weight:'300' });
 
 const style = {
@@ -127,10 +128,12 @@ const generateString = (length)=> {
     lists.map((l)=>{
       console.log(l.title)
       let date = new Date(l.created_at).getFullYear();
-      let cdate = new Date(l.created_at).getFullYear() + '-' + parseInt(new Date(l.created_at).getMonth() + 1) +'-'+new Date(l.created_at).getDay()+' '+new Date(l.created_at).getHour()+':'+new Date(l.created_at).getMinute()
+      let cdate = new Date(l.created_at).getFullYear() + '-' + parseInt(new Date(l.created_at).getMonth() + 1) +'-'+new Date(l.created_at).getDay()+' '+new Date(l.created_at).getHours()+':'+new Date(l.created_at).getMinutes()
       console.log(date)
+      let linkers = `/comment/${l.code}`
       return(
-        <Stack direction="row" key={l.code} justifyContent='space-between' alignItems='center' sx={{width:'100%',height:'60px',background:'#232730',padding:'8px',fontFamily:pops.style.fontFamily}}>
+        <Link href={linkers} key={l.code}>
+        <Stack direction="row"  justifyContent='space-between' alignItems='center' sx={{width:'100%',height:'60px',background:'#232730',padding:'8px',fontFamily:pops.style.fontFamily}}>
        <Stack>
         <Typography 
         style={{color:'white',fontWeight:'600',fontSize:'14px',fontFamily:pops.style.fontFamily}}
@@ -145,9 +148,10 @@ const generateString = (length)=> {
        </Stack>
         
           <ContentPasteIcon sx={{color:'#D0D0D0'}}  onClick={()=>{
-          navigator.clipboard.writeText(`https://anon-ebon.vercel.app/messages/${l.code}`)
+          navigator.clipboard.writeText(`https://anon-dev.vercel.app/messages/${l.code}`)
         }}/>
         </Stack>
+        </Link>
       )
     })
  }
