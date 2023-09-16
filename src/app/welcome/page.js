@@ -132,8 +132,9 @@ const generateString = (length)=> {
       console.log(date)
       let linkers = `/comment/${l.code}`
       return(
-        <Link href={'/comment/'+l.code} key={l.code}>
-        <Stack direction="row"  justifyContent='space-between' alignItems='center' sx={{width:'100%',height:'60px',background:'#232730',padding:'8px',fontFamily:pops.style.fontFamily}}>
+        <Stack direction="row" key={l.code} justifyContent='space-between' alignItems='center' sx={{width:'100%',height:'60px',background:'#232730',padding:'8px',fontFamily:pops.style.fontFamily}}>
+       
+       <Link href={'/comment/'+l.code} >
        <Stack>
         <Typography 
         style={{color:'white',fontWeight:'600',fontSize:'14px',fontFamily:pops.style.fontFamily}}
@@ -146,12 +147,14 @@ const generateString = (length)=> {
          {cdate}
         </Typography>
        </Stack>
-        
-          <ContentPasteIcon sx={{color:'#D0D0D0'}}  onClick={()=>{
+       </Link>
+        <Stack sx={{width:'100px'}} onClick={()=>{
           navigator.clipboard.writeText(`https://anon-dev.vercel.app/messages/${l.code}`)
-        }}/>
+        }}>
+          <ContentPasteIcon sx={{color:'#D0D0D0',width:'100px'}}  />
         </Stack>
-        </Link>
+          
+        </Stack>
       )
     })
  }
