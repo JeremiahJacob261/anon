@@ -43,9 +43,9 @@ const getPost=async(para)=> {
     p: 4,padding:'12px',background:'#232730',border:'1px #353943'
   };
     return(
-        <div >
+        <div style={{background:'#232730',height:'100vh',padding:'8px'}}>
           <Alert/>
-          <Stack direction="column" justifyContent='space-between' alignItems='center' sx={{background:'#232730',height:'100vh',padding:'8px'}}>
+          <Stack direction="column" justifyContent='space-between' alignItems='center' sx={{height:'90%'}}>
             <Typography sx={{fontSize:'17px',color:'white',fontWeight:'600',fontFamily:pops.style.fontFamily}}>{post.title}</Typography>
          
          <Stack direction='row' alignItems='center' spacing={3} sx={{width:'100%'}}>

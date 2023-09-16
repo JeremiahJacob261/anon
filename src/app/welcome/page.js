@@ -6,6 +6,7 @@ import { getAuth,signOut } from "firebase/auth";
 import { Divider, Stack, Typography, Button,Box, Container,TextField, Modal } from "@mui/material";
 import { supabase } from "../../api/supabase";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
@@ -32,7 +33,10 @@ export default function Welcome() {
   //modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false)
+    toast('Topic Added Successfully');
+  };
   //endmodal 
    //create random de topic
 const topic = async(title)=>{
@@ -115,6 +119,7 @@ const generateString = (length)=> {
     return(
         <Box style={{padding:'8px',minHeight:'100vh',background:'#171A21'}} >
           <Alert/>
+          <Toaster position="bottom-center"/>
 <Stack direction='row' sx={{background:'#232730',width:'100%',height:'65px',padding:'12px',borderRadius:'10px' }} justifyContent='space-between' alignItems='center'>
 <Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {useri.displayName}</Typography>
 <ExitToAppIcon onClick={signOuts}  sx={{width:'21px',height:'21px',color:'white'}}/>
@@ -149,7 +154,8 @@ const generateString = (length)=> {
        </Stack>
        </Link>
         <Stack sx={{width:'100px'}} onClick={()=>{
-          navigator.clipboard.writeText(`https://anon-dev.vercel.app/messages/${l.code}`)
+          navigator.clipboard.writeText(`https://anon-dev.vercel.app/messages/${l.code}`);
+          toast.success('Link Copied !');
         }}>
           <ContentPasteIcon sx={{color:'#D0D0D0',width:'100px'}}  />
         </Stack>
