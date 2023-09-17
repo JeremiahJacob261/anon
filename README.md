@@ -1,3 +1,7 @@
+This is a anonymous messaging app, this is the first release of its kind. Feel free to Fork and edit.
+Create an Account, add a new topic ,copy and send the link to friends. The link will direct them to a page where they would be able to send their messages.
+Finally,this project was built with Next Js, Deployed on vercel with npm, Authentication from Firebase, Storage and Database from Supabase SQL, designing packages from MUI LIBRARY.
+Default -->
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
