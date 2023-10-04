@@ -154,7 +154,7 @@ const generateString = (length)=> {
        </Stack>
        </Link>
         <Stack sx={{width:'100px'}} onClick={()=>{
-          navigator.clipboard.writeText(`https://anon-dev.vercel.app/messages/${l.code}`);
+          navigator.clipboard.writeText(`https://white-bay-096ecda03.3.azurestaticapps.net/messages/${l.code}`);
           toast.success('Link Copied !');
         }}>
           <ContentPasteIcon sx={{color:'#D0D0D0',width:'100px'}}  />
