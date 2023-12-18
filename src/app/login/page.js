@@ -4,7 +4,7 @@ import {useState,useEffect} from 'react'
 import styles from '../page.module.css'
 import Stack from '@mui/material/Stack'
 import { Button, TextField, Typography } from '@mui/material'
-import {  onAuthStateChanged } from "firebase/auth";
+import { supabase } from '@/api/supabase'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {Poppins} from 'next/font/google'
@@ -20,7 +20,9 @@ try{
       email: email,
       password: pass,
     })
-    console.log(data);
+    console.log(error);
+    localStorage.setItem('username',data.user.user_metadata.displayName)
+    route.push('/welcome')
 }catch(e){  
 console.log(e)
 }
@@ -28,19 +30,7 @@ console.log(e)
   }
 
   useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        const uid = user.uid;
-        // ...
-        route.push('/welcome');
-      } else {
-        // User is signed out
-        // ...
-        console.log('sign out');
-      }
-    });
+   
   },[])
   return (
     <main style={{background:'#171A21',display:'flex',justifyContent:'center',padding:'9px',height:'100vh'}}>

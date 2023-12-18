@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import {Poppins} from 'next/font/google'
     const pops = Poppins({ subsets: ['latin'],weight:'300' });
 
@@ -27,6 +28,10 @@ const style = {
 };
 
 export default function Welcome() {
+  const router = useRouter();
+  const [useri,setUseri] = useState('');
+  const [title,setTitle] = useState('');
+  const [lists,setLists] = useState([]);
   //modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -50,17 +55,14 @@ const topic = async(title)=>{
   console.log(error)
   setTitle('');
   handleClose();
+  router.push('/welcome')
   }
 }
 //end topic creation
-    const router = useRouter();
-    const [useri,setUseri] = useState('');
-    const [title,setTitle] = useState('');
-    const [lists,setLists] = useState([]);
     useEffect(()=>{
       const getUser = async () =>{
-const { data: { user } } = await supabase.auth.getUser()
-console.log(user) 
+const { data: { user },error } = await supabase.auth.getUser()
+console.log(error) 
 if (user) {
           setUseri(user);
           getL(user.email);
@@ -86,10 +88,7 @@ if (user) {
         
       },[]);
       const signOuts =()=>{
-        signOut(auth).then(()=>{
-          
-          router.push('/');
-        })
+
       }
 //generate random string
 const generateString = (length)=> {
@@ -106,52 +105,61 @@ const generateString = (length)=> {
 
 
 function Little() {
-  if(lists.length < 1){
+  if(lists && lists.length > 0){
     return(
+      <Stack direction="column" spacing={1} >
+  
+  {
+      lists.map((l)=>{
+        console.log(l.title)
+        let date = new Date(l.created_at).getFullYear();
+        let cdate = new Date(l.created_at).getFullYear() + '-' + parseInt(new Date(l.created_at).getMonth() + 1) +'-'+new Date(l.created_at).getDay()+' '+new Date(l.created_at).getHours()+':'+new Date(l.created_at).getMinutes()
+        console.log(date)
+        let linkers = `/comment/${l.code}`
+        return(
+  
+          <Stack direction="row" key={l.code} justifyContent='space-between' alignItems='center' sx={{width:'100%',height:'60px',background:'#232730',padding:'8px',fontFamily:pops.style.fontFamily}}>
+         
+         <Link href={'/comment/'+l.code} style={{ flex:1}}>
+         <motion.div
+          whileTap={{ scale:0.8}}
+          >
+
+         <Stack>
+          <Typography 
+          style={{color:'white',fontWeight:'600',fontSize:'14px',fontFamily:pops.style.fontFamily}}
+          >
+           {l.title}
+          </Typography>
+          <Typography 
+          style={{color:'#D0D0D0',fontWeight:'300',fontSize:'14px',fontFamily:pops.style.fontFamily}}
+          >
+           {cdate}
+          </Typography>
+         </Stack>
+          </motion.div>
+         </Link>
+         <motion.div 
+         whileHover={{ scale:1.09}}
+         onClick={()=>{
+            navigator.clipboard.writeText(`https://jerrydev.com.ng/messages/${l.code}`);
+            toast.success('Link Copied !');
+          }}>
+           
+            <ContentPasteIcon sx={{color:'#D0D0D0',width:'100px'}}  />
+         </motion.div>
+         
+            
+          </Stack>
+        )
+      })
+   }
+        </Stack>
+    )
+}else{
+   return(
       <Typography sx={{color:'white',fontFamily:pops.style.fontFamily}}>No Topics Yet</Typography>
     )
-
-}else{
-  return(
-    <Stack direction="column" spacing={1} >
-
-{
-    lists.map((l)=>{
-      console.log(l.title)
-      let date = new Date(l.created_at).getFullYear();
-      let cdate = new Date(l.created_at).getFullYear() + '-' + parseInt(new Date(l.created_at).getMonth() + 1) +'-'+new Date(l.created_at).getDay()+' '+new Date(l.created_at).getHours()+':'+new Date(l.created_at).getMinutes()
-      console.log(date)
-      let linkers = `/comment/${l.code}`
-      return(
-        <Stack direction="row" key={l.code} justifyContent='space-between' alignItems='center' sx={{width:'100%',height:'60px',background:'#232730',padding:'8px',fontFamily:pops.style.fontFamily}}>
-       
-       <Link href={'/comment/'+l.code} >
-       <Stack>
-        <Typography 
-        style={{color:'white',fontWeight:'600',fontSize:'14px',fontFamily:pops.style.fontFamily}}
-        >
-         {l.title}
-        </Typography>
-        <Typography 
-        style={{color:'#D0D0D0',fontWeight:'300',fontSize:'14px',fontFamily:pops.style.fontFamily}}
-        >
-         {cdate}
-        </Typography>
-       </Stack>
-       </Link>
-        <Stack sx={{width:'100px'}} onClick={()=>{
-          navigator.clipboard.writeText(`https://jerrydev.com.ng/messages/${l.code}`);
-          toast.success('Link Copied !');
-        }}>
-          <ContentPasteIcon sx={{color:'#D0D0D0',width:'100px'}}  />
-        </Stack>
-          
-        </Stack>
-      )
-    })
- }
-      </Stack>
-  )
 }
 }
     return(
@@ -159,7 +167,7 @@ function Little() {
           <Alert/>
           <Toaster position="bottom-center"/>
 <Stack direction='row' sx={{background:'#232730',width:'100%',height:'65px',padding:'12px',borderRadius:'10px' }} justifyContent='space-between' alignItems='center'>
-<Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {useri.displayName}</Typography>
+<Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {localStorage.getItem('username') ?? ''}</Typography>
 <ExitToAppIcon onClick={signOuts}  sx={{width:'21px',height:'21px',color:'white'}}/>
 </Stack>
 

@@ -12,6 +12,6 @@ const options = {
       headers: { 'x-my-custom-header': 'my-app-name' },
     },
   }
-const supabaseUrl = 'https://idopdrtglpbbmtnxcgsr.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlkb3BkcnRnbHBiYm10bnhjZ3NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MDkzMzksImV4cCI6MjAwMDA4NTMzOX0.JQ4LLVicVFV_ijpPwou9KWXufpyyZe9j35otmosP9iU';
-export const supabase = createClient(supabaseUrl, supabaseKey,{auth:{persistSession: false}})
+const supabaseUrl = 'https://hnefhmxnthlskxmggirm.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhuZWZobXhudGhsc2t4bWdnaXJtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwMjgzMzkwMiwiZXhwIjoyMDE4NDA5OTAyfQ.kY_PoT1S6Yr8S3IbFnFfiw-M-v4fA9zy4rJaFJejskg';
+export const supabase = createClient(supabaseUrl, supabaseKey,{auth:{persistSession: true}})

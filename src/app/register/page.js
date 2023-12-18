@@ -5,8 +5,7 @@ import styles from '../page.module.css'
 import Stack from '@mui/material/Stack'
 import { Button, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { resend } from '@/api/resend'
+import Link from 'next/link';
 import { supabase } from "@/api/supabase";
 import {Poppins} from 'next/font/google'
     const pops = Poppins({ subsets: ['latin'],weight:'300' })
@@ -31,15 +30,6 @@ console.log(e)
       
       },[])
 
-      const signEmail = async () => { 
-        
-resend.emails.send({
-  from: 'onboarding@resend.dev',
-  to: email,
-  subject: 'Hello from Anon',
-  html: '<p>Congrats on Signing Up<strong>ON THE BEST ANON APP</strong>!</p>'
-});
-      }
   const login=async()=>{
   if (pass != cpass) {
     alert('ensure both passwords are the same')
@@ -53,27 +43,28 @@ resend.emails.send({
           password: pass,
           options: {
             data: {
-              first_name: name,
+              displayName: name,
             },
             emailRedirectTo: 'http://localhost:3000/welcome'
           }
         }
       )
 console.log(data);
+setUser(data.user)
+localStorage.setItem('username',data.user.user_metadata.displayName)
 if (error) {
   alert(error.message)
 }
-signEmail();
     }catch(e){
       console.log(e)
     }
 const saveUser = async () => {
-  const user = supabase.auth.user()
   const { data, error } = await supabase
     .from('profiles')
     .insert([
-      { uid: user.id, email: user.email,name:name },
+      { uid: useri.id, email: useri.email,name:name },
     ])
+    alert("Registration Successful")
   if (error) {
     alert(error.message)
   }
