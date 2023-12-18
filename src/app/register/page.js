@@ -4,10 +4,9 @@ import {useState,useEffect} from 'react'
 import styles from '../page.module.css'
 import Stack from '@mui/material/Stack'
 import { Button, TextField, Typography } from '@mui/material'
-import {app} from '../../api/firebase'
-import { getAuth, createUserWithEmailAndPassword,onAuthStateChanged,updateProfile } from "firebase/auth";
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { resend } from '@/api/resend'
 import { supabase } from "@/api/supabase";
 import {Poppins} from 'next/font/google'
     const pops = Poppins({ subsets: ['latin'],weight:'300' })
@@ -18,66 +17,68 @@ export default function Register() {
     const [useri,setUser] = useState('')
     const [name,setName] = useState('')
     const route = useRouter();
-    const auth = getAuth(app);
     useEffect(()=>{
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
-            // ...
-            route.push('/welcome');
-          } else {
-            // User is signed out
-            // ...
-            console.log('sign out');
-          }
-        });
+      try{
+const user = supabase.auth.user()
+      if (user) {
+        route.push('/welcome')
+      }
+
+
+      }catch(e){
+console.log(e)
+      }
+      
       },[])
+
+      const signEmail = async () => { 
+        
+resend.emails.send({
+  from: 'onboarding@resend.dev',
+  to: email,
+  subject: 'Hello from Anon',
+  html: '<p>Congrats on Signing Up<strong>ON THE BEST ANON APP</strong>!</p>'
+});
+      }
   const login=async()=>{
   if (pass != cpass) {
     alert('ensure both passwords are the same')
   } else {
-    
-    createUserWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
-        console.log(user.uid);
-        setUser(user.uid);
-        updateProfile(auth.currentUser, {
-            displayName: name,
-          }).then(async()=>{
-            const {data,error} = await supabase
-            .from('autha')
-            .insert({
-                'name':name,
-                'email':email,
-                'uid':useri
-            })
-            console.log(error);
-          })
+    try{
 
-        alert('your account has been created');
-        route.push('/welcome');
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        console.log(errorMessage);
-        if(errorCode === 'auth/wrong-password'){
-          alert('Wrong Password, Please check your password and try again')
+    
+      const { data, error } = await supabase.auth.signUp(
+        {
+          email: email,
+          password: pass,
+          options: {
+            data: {
+              first_name: name,
+            },
+            emailRedirectTo: 'http://localhost:3000/welcome'
+          }
         }
-        if(errorCode === 'auth/network-request-failed'){
-          alert('Please ceck your internet connection and try again')
-        }
-        if(errorCode === 'auth/user-not-found'){
-          alert('Email does not exist, please sign up or register')
-        }
-      });
-      
+      )
+console.log(data);
+if (error) {
+  alert(error.message)
+}
+signEmail();
+    }catch(e){
+      console.log(e)
+    }
+const saveUser = async () => {
+  const user = supabase.auth.user()
+  const { data, error } = await supabase
+    .from('profiles')
+    .insert([
+      { uid: user.id, email: user.email,name:name },
+    ])
+  if (error) {
+    alert(error.message)
+  }
+}
+saveUser();
   }
   }
   return (

@@ -1,8 +1,5 @@
 "use client"
-import { onAuthStateChanged } from "firebase/auth";
 import { useState,useEffect } from "react";
-import {app} from '../../api/firebase'
-import { getAuth,signOut } from "firebase/auth";
 import { Divider, Stack, Typography, Button,Box, Container,TextField, Modal } from "@mui/material";
 import { supabase } from "../../api/supabase";
 import { useRouter } from "next/navigation";
@@ -56,28 +53,21 @@ const topic = async(title)=>{
   }
 }
 //end topic creation
-    const auth = getAuth(app);
     const router = useRouter();
     const [useri,setUseri] = useState('');
     const [title,setTitle] = useState('');
     const [lists,setLists] = useState([]);
     useEffect(()=>{
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
-            // ...
-            setUseri(user)
-
-        getL(user.email);
-          } else {
-            // User is signed out
-            // ...
-            console.log('sign out');
-            router.push('/');
-          }
-        });
+      const getUser = async () =>{
+const { data: { user } } = await supabase.auth.getUser()
+console.log(user) 
+if (user) {
+          setUseri(user);
+          getL(user.email);
+        }
+      }
+      getUser();
+       
         const getL = async(emails)=>{
           try {
             
@@ -115,21 +105,17 @@ const generateString = (length)=> {
 //end of random string
 
 
-
+function Little() {
+  if(lists.length < 1){
     return(
-        <Box style={{padding:'8px',minHeight:'100vh',background:'#171A21'}} >
-          <Alert/>
-          <Toaster position="bottom-center"/>
-<Stack direction='row' sx={{background:'#232730',width:'100%',height:'65px',padding:'12px',borderRadius:'10px' }} justifyContent='space-between' alignItems='center'>
-<Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {useri.displayName}</Typography>
-<ExitToAppIcon onClick={signOuts}  sx={{width:'21px',height:'21px',color:'white'}}/>
-</Stack>
+      <Typography sx={{color:'white',fontFamily:pops.style.fontFamily}}>No Topics Yet</Typography>
+    )
 
-<Stack direction="column" spacing={1} >
-      <Typography sx={{color:'white'}}>Recent</Typography>
-      <Divider sx={{background:'white'}}/>
+}else{
+  return(
+    <Stack direction="column" spacing={1} >
 
- {
+{
     lists.map((l)=>{
       console.log(l.title)
       let date = new Date(l.created_at).getFullYear();
@@ -154,7 +140,7 @@ const generateString = (length)=> {
        </Stack>
        </Link>
         <Stack sx={{width:'100px'}} onClick={()=>{
-          navigator.clipboard.writeText(`https://white-bay-096ecda03.3.azurestaticapps.net/messages/${l.code}`);
+          navigator.clipboard.writeText(`https://jerrydev.com.ng/messages/${l.code}`);
           toast.success('Link Copied !');
         }}>
           <ContentPasteIcon sx={{color:'#D0D0D0',width:'100px'}}  />
@@ -164,6 +150,23 @@ const generateString = (length)=> {
       )
     })
  }
+      </Stack>
+  )
+}
+}
+    return(
+        <Box style={{padding:'8px',minHeight:'100vh',background:'#171A21'}} >
+          <Alert/>
+          <Toaster position="bottom-center"/>
+<Stack direction='row' sx={{background:'#232730',width:'100%',height:'65px',padding:'12px',borderRadius:'10px' }} justifyContent='space-between' alignItems='center'>
+<Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {useri.displayName}</Typography>
+<ExitToAppIcon onClick={signOuts}  sx={{width:'21px',height:'21px',color:'white'}}/>
+</Stack>
+
+<Stack direction="column" spacing={1} >
+      <Typography sx={{color:'white'}}>Recent</Typography>
+      <Divider sx={{background:'white'}}/>
+<Little/>
 </Stack>
 <Fab color="primary" aria-label="add" sx={{position:'fixed',bottom:'20px',left:'46%',background:'#363636'}} onClick={handleOpen}>
         <AddIcon />

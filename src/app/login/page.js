@@ -4,8 +4,6 @@ import {useState,useEffect} from 'react'
 import styles from '../page.module.css'
 import Stack from '@mui/material/Stack'
 import { Button, TextField, Typography } from '@mui/material'
-import {app} from '../../api/firebase'
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {  onAuthStateChanged } from "firebase/auth";
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -16,33 +14,17 @@ export default function Login() {
     const [pass,setPass] = useState("");
     const route = useRouter();
     const [useri,setUser] = useState('')
-    const auth = getAuth(app);
   const login=async()=>{
-
-signInWithEmailAndPassword(auth, email, pass)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-    setUser(userCredential.uid);
-
-    alert('you are logged in');
-    route.push('/welcome');
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(error.message)
-    if(errorCode === 'auth/wrong-password'){
-      alert('Wrong Password, Please check your password and try again')
-    }
-    if(errorCode === 'auth/network-request-failed'){
-      alert('Please ceck your internet connection and try again')
-    }
-    if(errorCode === 'auth/user-not-found'){
-      alert('Email does not exist, please sign up or register')
-    }
-  });
+try{
+ const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: pass,
+    })
+    console.log(data);
+}catch(e){  
+console.log(e)
+}
+   
   }
 
   useEffect(()=>{
