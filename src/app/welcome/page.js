@@ -30,6 +30,7 @@ const style = {
 export default function Welcome() {
   const router = useRouter();
   const [useri,setUseri] = useState('');
+  const [username,setUsername] = useState('');
   const [title,setTitle] = useState('');
   const [lists,setLists] = useState([]);
   //modal
@@ -60,6 +61,7 @@ const topic = async(title)=>{
 }
 //end topic creation
     useEffect(()=>{
+      setUsername(localStorage.getItem('username'));
       const getUser = async () =>{
 const { data: { user },error } = await supabase.auth.getUser()
 console.log(error) 
@@ -167,7 +169,7 @@ function Little() {
           <Alert/>
           <Toaster position="bottom-center"/>
 <Stack direction='row' sx={{background:'#232730',width:'100%',height:'65px',padding:'12px',borderRadius:'10px' }} justifyContent='space-between' alignItems='center'>
-<Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {localStorage.getItem('username') ?? ''}</Typography>
+<Typography variant="subtitle1" sx={{fontSize:'20px',fontWeight:'600',color:'white',fontFamily:pops.style.fontFamily}}>Hello {username ?? ''}</Typography>
 <ExitToAppIcon onClick={signOuts}  sx={{width:'21px',height:'21px',color:'white'}}/>
 </Stack>
 
