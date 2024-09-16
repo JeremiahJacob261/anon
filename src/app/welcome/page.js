@@ -88,7 +88,7 @@ export default function Welcome() {
       }
     }
 
-  }, [lists]);
+  }, []);
   const signOuts = () => {
     supabase.auth.signOut();
     localStorage.removeItem('username');
@@ -109,61 +109,65 @@ export default function Welcome() {
 
 
   function Little() {
-    if (lists && lists.length > 0 && lists !== null) {
-      return (
-        <Stack direction="column" spacing={1} >
-
-          {
-            lists.map((l) => {
-              console.log(l.title)
-              let date = new Date(l.created_at).getFullYear();
-              let cdate = new Date(l.created_at).getFullYear() + '-' + parseInt(new Date(l.created_at).getMonth() + 1) + '-' + new Date(l.created_at).getDay() + ' ' + new Date(l.created_at).getHours() + ':' + new Date(l.created_at).getMinutes()
-              console.log(date)
-              let linkers = `/comment/${l.code}`
-              return (
-
-                <Stack direction="row" key={l.code} justifyContent='space-between' alignItems='center' sx={{ width: '100%', height: '60px', background: '#232730', padding: '8px', fontFamily: pops.style.fontFamily }}>
-
-                  <Link href={'/comment/' + l.code} style={{ flex: 1 }}>
+    try{
+      if (lists && lists.length > 0) {
+        return (
+          <Stack direction="column" spacing={1} >
+  
+            {
+              lists.map((l) => {
+                console.log(l.title)
+                let date = new Date(l.created_at).getFullYear();
+                let cdate = new Date(l.created_at).getFullYear() + '-' + parseInt(new Date(l.created_at).getMonth() + 1) + '-' + new Date(l.created_at).getDay() + ' ' + new Date(l.created_at).getHours() + ':' + new Date(l.created_at).getMinutes()
+                console.log(date)
+                let linkers = `/comment/${l.code}`
+                return (
+  
+                  <Stack direction="row" key={l.code} justifyContent='space-between' alignItems='center' sx={{ width: '100%', height: '60px', background: '#232730', padding: '8px', fontFamily: pops.style.fontFamily }}>
+  
+                    <Link href={'/comment/' + l.code} style={{ flex: 1 }}>
+                      <motion.div
+                        whileTap={{ scale: 0.8 }}
+                      >
+  
+                        <Stack>
+                          <Typography
+                            style={{ color: 'white', fontWeight: '600', fontSize: '14px', fontFamily: pops.style.fontFamily }}
+                          >
+                            {l.title}
+                          </Typography>
+                          <Typography
+                            style={{ color: '#D0D0D0', fontWeight: '300', fontSize: '14px', fontFamily: pops.style.fontFamily }}
+                          >
+                            {cdate}
+                          </Typography>
+                        </Stack>
+                      </motion.div>
+                    </Link>
                     <motion.div
-                      whileTap={{ scale: 0.8 }}
-                    >
-
-                      <Stack>
-                        <Typography
-                          style={{ color: 'white', fontWeight: '600', fontSize: '14px', fontFamily: pops.style.fontFamily }}
-                        >
-                          {l.title}
-                        </Typography>
-                        <Typography
-                          style={{ color: '#D0D0D0', fontWeight: '300', fontSize: '14px', fontFamily: pops.style.fontFamily }}
-                        >
-                          {cdate}
-                        </Typography>
-                      </Stack>
+                      whileHover={{ scale: 1.09 }}
+                      onClick={() => {
+                        navigator.clipboard.writeText(`https://jerrydev.com.ng/messages/${l.code}`);
+                        toast.success('Link Copied !');
+                      }}>
+  
+                      <ContentPasteIcon sx={{ color: '#D0D0D0', width: '100px' }} />
                     </motion.div>
-                  </Link>
-                  <motion.div
-                    whileHover={{ scale: 1.09 }}
-                    onClick={() => {
-                      navigator.clipboard.writeText(`https://jerrydev.com.ng/messages/${l.code}`);
-                      toast.success('Link Copied !');
-                    }}>
-
-                    <ContentPasteIcon sx={{ color: '#D0D0D0', width: '100px' }} />
-                  </motion.div>
-
-
-                </Stack>
-              )
-            })
-          }
-        </Stack>
-      )
-    } else {
-      return (
-        <Typography sx={{ color: 'white', fontFamily: pops.style.fontFamily }}>No Topics Yet</Typography>
-      )
+  
+  
+                  </Stack>
+                )
+              })
+            }
+          </Stack>
+        )
+      } else {
+        return (
+          <Typography sx={{ color: 'white', fontFamily: pops.style.fontFamily }}>No Topics Yet</Typography>
+        )
+      }
+    }catch(error){
+      console.log(error)
     }
   }
   return (
@@ -208,3 +212,5 @@ export default function Welcome() {
     )
   }
 }
+
+
