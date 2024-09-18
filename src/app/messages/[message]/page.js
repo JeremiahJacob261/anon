@@ -1,6 +1,8 @@
 "use client"
 import { supabase } from "@/api/supabase";
 import { Stack, TextField,Typography,Button,Modal } from "@mui/material";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState } from "react";
 import Reply from "@/functions/reply";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -9,6 +11,15 @@ import {Poppins} from 'next/font/google'
     const pops = Poppins({ subsets: ['latin'],weight:'300' });
 export default function Messages({params}) {
   const router = useRouter();
+
+  const [drop, setDrop] = useState(false);
+  const handleClosex = () => {
+    setDrop(false);
+  };
+  const handleOpenx = () => {
+    setDrop(true);
+  };
+
     //modal
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -17,16 +28,15 @@ export default function Messages({params}) {
   const [post,setPost] = useState({})
   const [comment,setComment] = useState('');
   console.log(params.message)
-  useEffect(()=>{
-const getPost=async(para)=> {
+  const getPost=async(para)=> {
     const { data, error } = await supabase
         .from('topics')
         .select()
         .eq('code',para);
   setPost(data[0]);
-  console.log(data);
-  console.log(error);
   }
+  useEffect(()=>{
+
   getPost(params.message);
   },[])
   const style = {
@@ -46,7 +56,7 @@ const getPost=async(para)=> {
         <div style={{background:'#232730',height:'100vh',padding:'8px'}}>
           <Alert/>
           <Stack direction="column" justifyContent='space-between' alignItems='center' sx={{height:'90%'}}>
-            <Typography sx={{fontSize:'17px',color:'white',fontWeight:'600',fontFamily:pops.style.fontFamily}}>{post.title}</Typography>
+            <Typography sx={{fontSize:'17px',color:'white',fontWeight:'600',fontFamily:pops.style.fontFamily}}>Question: {post.title ?? "title"}</Typography>
          
          <Stack direction='row' alignItems='center' spacing={3} sx={{width:'100%'}}>
           <TextField 
@@ -58,7 +68,10 @@ const getPost=async(para)=> {
           if (comment.length < 1) {
             alert('please input a least 4 characters!')
           } else {
-            Reply(params.message,comment,post.title);
+            handleOpenx();
+            Reply(params.message,comment,post.title).then((res)=>{
+              handleClosex();
+            })
           setComment('');
           handleOpen()
           }

@@ -10,5 +10,6 @@ async function Reply(code,response,quest) {
 })
 console.log(error)
 console.log('uploaded successsfully')
+return 'uploaded successfully'
 }
 export default Reply;

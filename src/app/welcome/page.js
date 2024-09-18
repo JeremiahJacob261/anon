@@ -67,7 +67,7 @@ export default function Welcome() {
       console.log(error)
       if (user) {
         setUseri(user);
-        getL(user.email);
+        getL(localStorage.getItem('email'));
       }
     }
     getUser();
@@ -91,6 +91,7 @@ export default function Welcome() {
   }, []);
   const signOuts = () => {
     supabase.auth.signOut();
+    localStorage.removeItem('email');
     localStorage.removeItem('username');
     router.push('/login')
   }
