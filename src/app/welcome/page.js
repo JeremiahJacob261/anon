@@ -9,6 +9,8 @@ import AddIcon from '@mui/icons-material/Add';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Link from 'next/link'
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { motion } from 'framer-motion'
 import { Poppins } from 'next/font/google'
 const pops = Poppins({ subsets: ['latin'], weight: '300' });
@@ -32,12 +34,15 @@ export default function Welcome() {
   const [username, setUsername] = useState('');
   const [title, setTitle] = useState('');
   const [lists, setLists] = useState([]);
+
+  
+  const [drop, setDrop] = useState(false);
+  const handleClosex= () => setDrop(false);
   //modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false)
-    toast('Topic Added Successfully');
   };
   //endmodal 
   //create random de topic
@@ -54,8 +59,9 @@ export default function Welcome() {
         })
       console.log(error)
       setTitle('');
+      toast('Topic Added Successfully');
       handleClose();
-      router.push('/welcome')
+      window.location.reload()
     }
   }
   //end topic creation
@@ -122,7 +128,8 @@ export default function Welcome() {
 
                     <Link href={'/comment/' + l.code} style={{ flex: 1 }}>
                       <motion.div
-                        whileTap={{ scale: 0.8 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={()=>{ setDrop(true)}}
                       >
 
                         <Stack>
@@ -142,7 +149,7 @@ export default function Welcome() {
                     <motion.div
                       whileHover={{ scale: 1.09 }}
                       onClick={() => {
-                        navigator.clipboard.writeText(`https://jerrydev.com.ng/messages/${l.code}`);
+                        navigator.clipboard.writeText(`https://www.jerrydev.com.ng/messages/${l.code}`);
                         toast.success('Link Copied !');
                       }}>
 
@@ -168,6 +175,13 @@ export default function Welcome() {
   return (
     <Box style={{ padding: '8px', minHeight: '100vh', background: '#171A21' }} >
       <Alert />
+      <Backdrop
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+        open={drop}
+        onClick={handleClosex}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Toaster position="bottom-center" />
       <Stack direction='row' sx={{ background: '#232730', width: '100%', height: '65px', padding: '12px', borderRadius: '10px' }} justifyContent='space-between' alignItems='center'>
         <Typography variant="subtitle1" sx={{ fontSize: '20px', fontWeight: '600', color: 'white', fontFamily: pops.style.fontFamily }}>Hello {username ?? ''}</Typography>

@@ -5,8 +5,8 @@ import { Button, Typography } from '@mui/material'
 import toast, { Toaster } from 'react-hot-toast'
 import { useState } from 'react'
 import { Poppins } from 'next/font/google'
-import Backdrop from '@mui/material/Backdrop';
 import { useRouter } from 'next/navigation';
+import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 const pops = Poppins({ subsets: ['latin'], weight: '300' });
 
@@ -24,8 +24,8 @@ function generateRandomString(length = 8) {
 }
 export default function Home() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const handleClose = () => setOpen(false);
+  const router = useRouter();
   const continuex = () => {
     setOpen(true);
     const uuid = generateRandomString() //this code generates a random string and stores it in the local storage & redirects to the messages page & stors in db
@@ -72,18 +72,7 @@ export default function Home() {
         spacing={4} alignItems="center" justifyContent="center" >
         <h1 style={{ color: 'whitesmoke', fontFamily: pops.style.fontFamily }}>ANON</h1>
         <Typography style={{ color: 'whitesmoke', fontFamily: pops.style.fontFamily }}>Welcome to ANON, the most trusted Anonymous Messaging App</Typography>
-        {/* <Link href='/login'
-          style={{ width: '100%' }}>
-          <Button variant='contained' style={{ width: '100%', background: 'black', padding: '8px' }}>LOGIN</Button></Link>
-        <Link href='/register'
-          style={{ width: '100%' }}>
-          <Button variant='standard' style={{ width: '100%', background: 'white', color: 'black', padding: '8px' }}>REGISTER</Button></Link>
-      */}
-
-
         <Button variant='contained' onClick={starts} style={{ width: '100%', background: 'black', padding: '8px' }}>CONTINUE</Button>
-
-
       </Stack>
     </main>
   )
