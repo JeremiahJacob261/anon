@@ -29,7 +29,6 @@ const style = {
 
 export default function Welcome() {
   const router = useRouter();
-  const [useri, setUseri] = useState('');
   const [username, setUsername] = useState('');
   const [title, setTitle] = useState('');
   const [lists, setLists] = useState([]);
@@ -50,7 +49,7 @@ export default function Welcome() {
         .from('topics')
         .insert({
           'title': title,
-          'email': useri.email,
+          'email': username,
           'code': generateString(5),
         })
       console.log(error)
@@ -61,18 +60,8 @@ export default function Welcome() {
   }
   //end topic creation
   useEffect(() => {
-    setUsername(localStorage.getItem('username'));
-    const getUser = async () => {
-      const { data: { user }, error } = await supabase.auth.getUser()
-      console.log(error)
-      if (user) {
-        setUseri(user);
-        getL(localStorage.getItem('email'));
-      }
-    }
-    getUser();
-
-    const getL = async (emails) => {
+    setUsername(localStorage.getItem('uuid'));
+  const getL = async (emails) => {
       try {
 
         const { data, error } = await supabase
@@ -87,12 +76,17 @@ export default function Welcome() {
         console.log(error)
       }
     }
+    if (!localStorage.getItem('uuid')) {
+      router.push('/login')
+    } else {
+      getL(localStorage.getItem('uuid'));
+    }
+
+  
 
   }, []);
   const signOuts = () => {
-    supabase.auth.signOut();
-    localStorage.removeItem('email');
-    localStorage.removeItem('username');
+    localStorage.removeItem('uuid');
     router.push('/login')
   }
   //generate random string
@@ -110,11 +104,11 @@ export default function Welcome() {
 
 
   function Little() {
-    try{
+    try {
       if (lists && lists.length > 0) {
         return (
           <Stack direction="column" spacing={1} >
-  
+
             {
               lists.map((l) => {
                 console.log(l.title)
@@ -123,14 +117,14 @@ export default function Welcome() {
                 console.log(date)
                 let linkers = `/comment/${l.code}`
                 return (
-  
+
                   <Stack direction="row" key={l.code} justifyContent='space-between' alignItems='center' sx={{ width: '100%', height: '60px', background: '#232730', padding: '8px', fontFamily: pops.style.fontFamily }}>
-  
+
                     <Link href={'/comment/' + l.code} style={{ flex: 1 }}>
                       <motion.div
                         whileTap={{ scale: 0.8 }}
                       >
-  
+
                         <Stack>
                           <Typography
                             style={{ color: 'white', fontWeight: '600', fontSize: '14px', fontFamily: pops.style.fontFamily }}
@@ -151,11 +145,11 @@ export default function Welcome() {
                         navigator.clipboard.writeText(`https://jerrydev.com.ng/messages/${l.code}`);
                         toast.success('Link Copied !');
                       }}>
-  
+
                       <ContentPasteIcon sx={{ color: '#D0D0D0', width: '100px' }} />
                     </motion.div>
-  
-  
+
+
                   </Stack>
                 )
               })
@@ -167,7 +161,7 @@ export default function Welcome() {
           <Typography sx={{ color: 'white', fontFamily: pops.style.fontFamily }}>No Topics Yet</Typography>
         )
       }
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
